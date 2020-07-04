@@ -17,7 +17,7 @@ var (
 )
 
 func main() {
-	log.Info("Starting grpc-server Server 😇")
+	log.Infof("Starting grpc-server version %s 😇", Version)
 
 	// Get server runtime configuration
 	cfg := config.MustLoadConfig()
