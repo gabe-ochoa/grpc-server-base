@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+package health.v1;
+
+option go_package = "healthv1";
+
+import "google/api/annotations.proto";
+
+// Examples
+// https://github.com/grpc-ecosystem/grpc-gateway/blob/master/examples/internal/proto/examplepb/a_bit_of_everything.proto
+
+// HealthAPI implements the health checks and connectivity checks for the API.
+service HealthAPI {
+  // Health checks the health of the server.
+  rpc Health(HealthRequest) returns (HealthResponse) {
+    option (google.api.http) = {
+      get: "/v1/health"
+    };
+  }
+}
+
+message HealthRequest {}
+
+message HealthResponse {
+  // ServingStatus tells the clients what state the server is in and if requests should be sent or not.
+  enum ServingStatus {
+    UNKNOWN = 0;
+    SERVING = 1;
+    NOT_SERVING = 2;
+  }
+  ServingStatus status = 1;
+}

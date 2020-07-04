@@ -1,0 +1,60 @@
+protoc:
+  version: 3.11.0
+  # The Protobuf version to use from https://github.com/google/protobuf/releases.
+  # Set this to make your builds completely reproducible.
+  allow_unused_imports: false
+  # Additional paths to include with -I to protoc.
+  # By default, the directory of the config file is included,
+  # or the current directory if there is no config file.
+  includes:
+    - third_party/googleapis
+
+# excludes from linting as these are external libraries
+excludes:
+  - third_party/googleapis
+
+lint:
+  group: uber2
+  rules:
+    remove:
+      # Allow fields to not need message prefixes
+      - ENUM_FIELD_PREFIXES_EXCEPT_MESSAGE
+      - ENUM_ZERO_VALUES_INVALID_EXCEPT_MESSAGE
+      # Allow reuse of request and response types
+      - REQUEST_RESPONSE_TYPES_UNIQUE
+      # We're never going to be generating a java client
+      - FILE_OPTIONS_EQUAL_JAVA_MULTIPLE_FILES_TRUE
+      - FILE_OPTIONS_EQUAL_JAVA_PACKAGE_COM_PREFIX
+      - FILE_OPTIONS_JAVA_PACKAGE_SAME_IN_DIR
+      - FILE_OPTIONS_EQUAL_JAVA_PACKAGE_PREFIX
+      - FILE_OPTIONS_REQUIRE_JAVA_MULTIPLE_FILES
+      - FILE_OPTIONS_REQUIRE_JAVA_OUTER_CLASSNAME
+      - FILE_OPTIONS_REQUIRE_JAVA_PACKAGE
+      # No Objective C, C#, or PHP
+      - FILE_OPTIONS_EQUAL_OBJC_CLASS_PREFIX_ABBR
+      - FILE_OPTIONS_REQUIRE_OBJC_CLASS_PREFIX
+      - FILE_OPTIONS_OBJC_CLASS_PREFIX_SAME_IN_DIR
+      - FILE_OPTIONS_EQUAL_PHP_NAMESPACE_CAPITALIZED
+      - FILE_OPTIONS_PHP_NAMESPACE_SAME_IN_DIR
+      - FILE_OPTIONS_REQUIRE_PHP_NAMESPACE
+      - FILE_OPTIONS_REQUIRE_CSHARP_NAMESPACE
+
+generate:
+  go_options:
+    # The base import path. This should be the go path of the prototool.yaml file.
+    # This is required if you have any go plugins.
+    import_path: github.com/grpc-serverchat/grpc-server-server
+    # Extra modifiers to include with Mfile=package.
+    extra_modifiers:
+      google/api/annotations.proto: google.golang.org/genproto/googleapis/api/annotations
+      google/api/http.proto: google.golang.org/genproto/googleapis/api/http
+
+  plugins:
+    # We don't currently accept gRPC requests so we only need the grpc-gateway bindings
+    - name: go
+      type: go
+      flags: plugins=grpc
+      output: ./gen
+    - name: grpc-gateway
+      type: go
+      output: ./gen

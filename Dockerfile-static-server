@@ -1,0 +1,6 @@
+FROM golang:1.14-alpine3.12
+
+COPY ./dist /dist
+COPY ./static-server/static /static
+
+CMD [ "/dist/grpc-server-static-server-linux" ]
