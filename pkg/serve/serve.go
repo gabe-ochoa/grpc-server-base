@@ -21,7 +21,7 @@ import (
 	health_controller "github.com/gabe-ochoa/grpc-server-base/pkg/controllers/health"
 
 	// protos
-	healthv1 "github.com/grpc-serverchat/grpc-server-server/protos/gen/v1/health"
+	healthv1 "github.com/gabe-ochoa/grpc-server-base/protos/gen/v1/health"
 
 	log "github.com/sirupsen/logrus"
 	"google.golang.org/grpc"

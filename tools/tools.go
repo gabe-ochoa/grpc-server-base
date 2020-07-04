@@ -2,7 +2,7 @@
 
 package tools
 
-// These are imports for the tools we use to build grpc-server-server
+// These are imports for the tools we use to build grpc-server-base
 // https://github.com/golang/go/wiki/Modules#how-can-i-track-tool-dependencies-for-a-module
 
 import (
